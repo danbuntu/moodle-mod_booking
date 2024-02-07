@@ -753,7 +753,7 @@ class price {
      */
     public static function get_pricecategory_for_user(stdClass $user) {
 
-        global $CFG;
+        global $CFG, $DB;
 
         // If a user profile field to story the price category identifiers for each user has been set,
         // then retrieve it from config and set the correct category identifier for the current user.
@@ -768,7 +768,25 @@ class price {
 
         if (!isset($user->profile[$fieldshortname])
             || empty($user->profile[$fieldshortname])) {
-            $categoryidentifier = 'default'; // Default.
+
+            // To avoid a possible problem with not up do date caches...
+            $sql = "SELECT fd.data
+                    FROM {user_info_field} uif
+                    JOIN {user_info_data} fd ON uif.id = fd.fieldid
+                    WHERE uif.shortname = :fieldshortname
+                    AND fd.id = :userid";
+
+            $params = [
+                'fieldshortname' => $fieldshortname,
+                'userid' => $user->id
+            ];
+
+            if (!$categoryidentifier = $DB->get_field_sql($sql, $params, IGNORE_MISSING)) {
+                $categoryidentifier = 'default'; // Default.
+            } else {
+                $user->profile[$fieldshortname] = $categoryidentifier;
+            }
+
         } else {
             $categoryidentifier = $user->profile[$fieldshortname];
         }

@@ -1663,6 +1663,7 @@ $string['invisible'] = 'Unsichtbar';
 $string['annotation'] = 'Interne Anmerkung';
 $string['courseid'] = 'Kurs, in den eingeschrieben wird';
 $string['entities'] = 'Orte mit Entities Plugin auswählen';
+$string['shoppingcart'] = 'Zahlungsoptionen mit Shopping Cart Plugin definieren';
 $string['optiondates'] = 'Termine';
 $string['actions'] = 'Buchungsaktionen';
 $string['attachment'] = 'Angehängte Dateien';

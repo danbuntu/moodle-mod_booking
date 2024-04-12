@@ -242,6 +242,7 @@ $string['bookinganswer_cancelled'] = 'Booking option cancelled for/by user';
 // Booking option events.
 $string['bookingoption_cancelled'] = "Booking option cancelled for all";
 $string['bookingoption_booked'] = 'Booking option booked';
+$string['bookingoption_freetobookagain'] = 'Free places again';
 $string['bookingoption_completed'] = 'Booking option completed';
 $string['bookingoption_created'] = 'Booking option created';
 $string['bookingoption_updated'] = 'Booking option updated';
@@ -399,7 +400,12 @@ $string['attachedfiles'] = 'Attached files';
 $string['availability'] = 'Still available';
 $string['available'] = 'Places available';
 $string['booked'] = 'Booked';
+$string['always'] = 'Always';
 $string['fullybooked'] = 'Fully booked';
+$string['notfullybooked'] = 'Not fully booked';
+$string['fullwaitinglist'] = 'Full waitinglist';
+$string['notfullwaitinglist'] = 'Not full waitinglist';
+
 $string['notifyme'] = 'Notify when available';
 $string['alreadyonlist'] = 'You will be notified';
 $string['bookedpast'] = 'Booked (course finished)';
@@ -2121,6 +2127,7 @@ $string['deletebookingrule'] = 'Delete rule';
 $string['deletebookingrule_confirmtext'] = 'Do you really want to delete the following rule?';
 
 $string['rule_event'] = 'Event';
+$string['rule_event_condition'] = 'Execute when...';
 $string['rule_mailtemplate'] = 'Mail template';
 $string['rule_datefield'] = 'Date field';
 $string['rule_customprofilefield'] = 'Custom user profile field';
@@ -2182,6 +2189,9 @@ $string['bookingaction'] = "Action";
 $string['sendcopyofmailsubjectprefix'] = 'Subject prefix for the copy';
 $string['sendcopyofmailmessageprefix'] = 'Message prefix for the copy';
 $string['send_copy_of_mail'] = 'Send an email copy';
+$string['send_mail_interval'] = 'Send a message to multiple users with a time delay';
+$string['interval'] = "Delay";
+$string['interval_help'] = "In minutes. 1440 for 24 hours.";
 
 // Cancel booking option.
 $string['canceloption'] = "Cancel boooking option";

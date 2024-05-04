@@ -271,14 +271,23 @@ class condition_allowupdate_test extends advanced_testcase {
         $bookingfield->save();
         $this->assertTrue(\core_customfield\field::record_exists($bookingfield->get('id')));
 
+        $time = new \DateTimeImmutable('now', new \DateTimeZone('Europe/London'));
+        $plustqodays = $time->modify('+ 2 day');
+        $plusfourdays = $time->modify('+ 4 day');
+
         $record = new stdClass();
         $record->bookingid = $booking1->id;
         $record->text = 'Test option1';
-        $record->courseid = 0;
+        $record->courseid = $course->id;
         $record->useprice = 0;
         $record->maxanswers = 3;
-        $record->coursestarttime = strtotime('now + 2 day');
-        $record->courseendtime = strtotime('now + 4 day');
+        $record->datesmarker = 1;
+        $record->optiondateid_1 = "0";
+        $record->daystonotify_1 = "0";
+        //$record->coursestarttime_1 = $plustqodays->getTimestamp();
+        //$record->courseendtime_1 = $plusfourdays->getTimestamp();
+        $record->coursestarttime_1 = strtotime('now + 3 day');
+        $record->courseendtime_1 = strtotime('now + 6 day');
         $record->customfield_spt1 = 'tennis';
 
         /** @var mod_booking_generator $plugingenerator */

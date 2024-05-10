@@ -1371,10 +1371,6 @@ $string['duplicatemoodlecourses_desc'] = 'When this setting is active and you du
 then the connected Moodle course will also be duplicated. This will be done with an adhoc task,
 so be sure that CRON runs regularly.';
 
-// Mobile.
-$string['next'] = 'Next';
-$string['previous'] = 'Previous';
-
 // Privacy API.
 $string['privacy:metadata:booking_answers'] = 'Represents a booking of an event';
 $string['privacy:metadata:booking_answers:userid'] = 'User that is booked for this event';
@@ -2368,7 +2364,7 @@ $string['vue_notification_text_action_success'] = 'Configuration was {$a} succes
 $string['vue_notification_title_action_fail'] = 'Configuration was not  {$a}';
 $string['vue_notification_text_action_fail'] = 'Something went wrong while saving. The changes have not been made.';
 
-// mobile
+// Mobile.
 $string['mobileapp_heading'] = "Mobile App";
 $string['mobileapp_heading_desc'] = "Choose your booking instance to display on the connected Moodle Mobile Apps.";
 $string['mobileappnobookinginstance'] = "No booking instance on your plattform";
@@ -2377,3 +2373,7 @@ $string['mobileappsetinstance'] = "Booking instance";
 $string['mobileappsetinstancedesc'] = "Choose the Booking instance which should be shown on the mobile app.";
 $string['details'] = 'Details';
 $string['notbookable'] = "Not bookable";
+$string['next'] = 'Next';
+$string['previous'] = 'Previous';
+$string['show_dates'] = 'Show dates';
+$string['mobileapp_price'] = 'Price';

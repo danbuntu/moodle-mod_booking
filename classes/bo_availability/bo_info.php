@@ -811,6 +811,7 @@ class bo_info {
                 'label' => $label,
                 'class' => "$classes $extraclasses text-center",
                 'role' => $role,
+                'link' => 'https://wunderbyte.at',
             ],
         ];
 

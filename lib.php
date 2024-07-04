@@ -1863,6 +1863,45 @@ function booking_get_option_text($booking, $id) {
         return get_string("notanswered", "booking");
     }
 }
+/**
+ * Booking get option text.
+ *
+ * @param object $data
+ * @return array $status
+ *
+ */
+function booking_reset_userdata($data) {
+    global $CFG, $DB;
+    $courseid = $data->courseid;
+
+    $status = [];
+    $sql = "SELECT cm.id, cm.instance
+            FROM {course_modules} cm
+            JOIN {modules} m ON cm.module=m.id
+            WHERE m.name LIKE 'booking'
+            AND cm.course = :courseid";
+    $cms = $DB->get_records_sql($sql, ['courseid' => $courseid]);
+    foreach ($cms as $cm) {
+        $bookingoptions = $DB->get_records('booking_options', ['bookingid' => $cm->instance]);
+
+        foreach ($bookingoptions as $bo) {
+
+            $option = singleton_service::get_instance_of_booking_option($cm->id, $bo->id);
+            $ba = singleton_service::get_instance_of_booking_answers($option->settings);
+            if ($ba->users->waitlinglist != 0){
+                $status = $option->delete_responses(array_keys($ba->users));
+            }
+            $test = $DB->get_records('booking_answers',
+                ['userid' => $ba->userid, 'optionid' => $cm->optionid, 'completed' => 0]);
+        }
+    }
+    $temp = ['0' => [
+        'component' => get_string('courseresetcomponent', 'booking'),
+        'item' => get_string('courseresettask', 'booking'),
+        'error' => !$status,
+    ]];
+    return $temp;
+}
 
 /**
  * Implementation of the function for printing the form elements that control whether the course reset

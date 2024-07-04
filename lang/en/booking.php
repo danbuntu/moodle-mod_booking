@@ -1070,6 +1070,8 @@ $string['sessionremindermailmessage'] = '<p>Keep in mind: You are booked for the
 <p>Booking status: {$a->status}</p>
 <p>Participant: {$a->participant}</p>
 ';
+$string['courseresetcomponent'] = 'Responses';
+$string['courseresettask'] = 'Delete all responses';
 
 // All_users.php.
 $string['completed'] = 'Completed';

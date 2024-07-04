@@ -1029,6 +1029,8 @@ $string['sessionremindermailmessage'] = '<p>Erinnerung: Sie haben den folgenden 
 <p>Buchungsstatus: {$a->status}</p>
 <p>Teilnehmer: {$a->participant}</p>
 ';
+$string['courseresetcomponent'] = 'Antworten';
+$string['courseresettask'] = 'Alle Antworten löschen';
 
 // All_users.php.
 $string['completed'] = 'Abgeschlossen';

@@ -587,6 +587,31 @@ class booking_option {
     }
 
     /**
+     * Mass delete all responses on reset
+     *
+     * @return array
+     */
+    public function delete_responses_reset() {
+        global $DB;
+
+        $bookingsettings = singleton_service::get_instance_of_booking_settings_by_bookingid($this->bookingid);
+
+        $ud = [];
+        $users = $DB->get_records('booking_answers', ['optionid' => $this->optionid]);
+
+        foreach ($users as $u) {
+            $ud[] = $u->userid;
+        }
+
+        $results = [];
+        foreach ($ud as $userid) {
+            $results[$userid] = $this->user_delete_response($userid);
+        }
+
+        return $results;
+    }
+
+    /**
      * Mass delete all responses
      *
      * @param array $users array of users

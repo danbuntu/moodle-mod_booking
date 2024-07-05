@@ -1864,7 +1864,7 @@ function booking_get_option_text($booking, $id) {
     }
 }
 /**
- * Booking get option text.
+ * Delete responses on Course reset.
  *
  * @param object $data
  * @return array $status
@@ -1881,25 +1881,23 @@ function booking_reset_userdata($data) {
             WHERE m.name LIKE 'booking'
             AND cm.course = :courseid";
     $cms = $DB->get_records_sql($sql, ['courseid' => $courseid]);
+
     foreach ($cms as $cm) {
         $bookingoptions = $DB->get_records('booking_options', ['bookingid' => $cm->instance]);
-
         foreach ($bookingoptions as $bo) {
 
             $option = singleton_service::get_instance_of_booking_option($cm->id, $bo->id);
-            $ba = singleton_service::get_instance_of_booking_answers($option->settings);
-            if ($ba->users->waitlinglist != 0){
-                $status = $option->delete_responses(array_keys($ba->users));
-            }
-            $test = $DB->get_records('booking_answers',
-                ['userid' => $ba->userid, 'optionid' => $cm->optionid, 'completed' => 0]);
+            $status = $option->delete_responses_reset();
+
         }
     }
+
     $temp = ['0' => [
         'component' => get_string('courseresetcomponent', 'booking'),
         'item' => get_string('courseresettask', 'booking'),
         'error' => !$status,
     ]];
+
     return $temp;
 }
 

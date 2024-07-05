@@ -1887,6 +1887,7 @@ function booking_reset_userdata($data) {
         foreach ($bookingoptions as $bo) {
 
             $option = singleton_service::get_instance_of_booking_option($cm->id, $bo->id);
+            // TODO: Add the functionality to delete completed bookings as well!
             $status = $option->delete_responses_reset();
 
         }

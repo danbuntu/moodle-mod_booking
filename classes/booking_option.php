@@ -594,8 +594,6 @@ class booking_option {
     public function delete_responses_reset() {
         global $DB;
 
-        // $DB->execute("UPDATE {booking_answers} SET completed = 0 WHERE optionid = ?", [$this->optionid]);
-
         $ud = [];
         $users = $DB->get_records('booking_answers', ['optionid' => $this->optionid]);
 
@@ -609,15 +607,6 @@ class booking_option {
         }
 
         return $results;
-    }
-
-    /**
-     * Deletes the all booking_answers entry from the current course
-     * @return void
-     */
-    public function clear_table_booking_options() {
-        global $DB;
-        $DB->execute("DELETE FROM {booking_answers} WHERE optionid = ?", [$this->optionid]);
     }
 
     /**

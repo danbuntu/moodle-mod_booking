@@ -594,7 +594,7 @@ class booking_option {
     public function delete_responses_reset() {
         global $DB;
 
-        $DB->execute("UPDATE {booking_answers} SET completed = 0 WHERE optionid = ?", [$this->optionid]);
+        // $DB->execute("UPDATE {booking_answers} SET completed = 0 WHERE optionid = ?", [$this->optionid]);
 
         $ud = [];
         $users = $DB->get_records('booking_answers', ['optionid' => $this->optionid]);
@@ -605,7 +605,7 @@ class booking_option {
 
         $results = [];
         foreach ($ud as $userid) {
-            $results[$userid] = $this->user_delete_response($userid);
+            $results[$userid] = $this->user_delete_response($userid, false, false, true, true);
         }
 
         return $results;
@@ -648,8 +648,13 @@ class booking_option {
      * @param bool $syncwaitinglist set this to false, if you do not want to sync_waiting_list here (avoid recursions)
      * @return bool true if booking was deleted successfully, otherwise false
      */
-    public function user_delete_response($userid, $cancelreservation = false,
-        $bookingoptioncancel = false, $syncwaitinglist = true) {
+    public function user_delete_response(
+        $userid,
+        $cancelreservation = false,
+        $bookingoptioncancel = false,
+        $syncwaitinglist = true,
+        $deletecompleted = false
+    ) {
 
         global $USER, $DB;
 
@@ -661,8 +666,13 @@ class booking_option {
             $syncwaitinglist = false;
         }
 
-        $results = $DB->get_records('booking_answers',
-                ['userid' => $userid, 'optionid' => $this->optionid, 'completed' => 0]);
+        $dboptions = ['userid' => $userid, 'optionid' => $this->optionid];
+
+        if (!$deletecompleted) {
+            $dboptions['completed'] = 1;
+        }
+
+        $results = $DB->get_records('booking_answers', $dboptions);
 
         if (count($results) == 0) {
             return false;

@@ -1867,39 +1867,38 @@ function booking_get_option_text($booking, $id) {
  * Delete responses on Course reset.
  *
  * @param object $data
- * @return array $status
+ * @return mixed $status
  *
  */
 function booking_reset_userdata($data) {
-    global $CFG, $DB;
-    $courseid = $data->courseid;
+    if (!empty($data->reset_booking)) {
+        global $CFG, $DB;
+        $courseid = $data->courseid;
 
-    $status = [];
-    $sql = "SELECT cm.id, cm.instance
-            FROM {course_modules} cm
-            JOIN {modules} m ON cm.module=m.id
-            WHERE m.name LIKE 'booking'
-            AND cm.course = :courseid";
-    $cms = $DB->get_records_sql($sql, ['courseid' => $courseid]);
+        $status = [];
+        $sql = "SELECT cm.id, cm.instance
+                FROM {course_modules} cm
+                JOIN {modules} m ON cm.module=m.id
+                WHERE m.name LIKE 'booking'
+                AND cm.course = :courseid";
+        $cms = $DB->get_records_sql($sql, ['courseid' => $courseid]);
 
-    foreach ($cms as $cm) {
-        $bookingoptions = $DB->get_records('booking_options', ['bookingid' => $cm->instance]);
-        foreach ($bookingoptions as $bo) {
-
-            $option = singleton_service::get_instance_of_booking_option($cm->id, $bo->id);
-            // TODO: Add the functionality to delete completed bookings as well!
-            $status = $option->delete_responses_reset();
-
+        foreach ($cms as $cm) {
+            $bookingoptions = $DB->get_records('booking_options', ['bookingid' => $cm->instance]);
+            foreach ($bookingoptions as $bo) {
+                $option = singleton_service::get_instance_of_booking_option($cm->id, $bo->id);
+                $status = $option->delete_responses_reset();
+            }
         }
+
+        $temp = ['0' => [
+            'component' => get_string('courseresetcomponent', 'booking'),
+            'item' => get_string('courseresettask', 'booking'),
+            'error' => !$status,
+        ]];
+        return $temp;
     }
-
-    $temp = ['0' => [
-        'component' => get_string('courseresetcomponent', 'booking'),
-        'item' => get_string('courseresettask', 'booking'),
-        'error' => !$status,
-    ]];
-
-    return $temp;
+    return "";
 }
 
 /**
@@ -1913,6 +1912,7 @@ function booking_reset_userdata($data) {
 function booking_reset_course_form_definition(&$mform) {
     $mform->addElement('header', 'bookingheader', get_string('modulenameplural', 'booking'));
     $mform->addElement('advcheckbox', 'reset_booking', get_string('removeresponses', 'booking'));
+    $mform->setDefault('reset_booking', 0);
 }
 
 /**
